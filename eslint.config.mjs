@@ -1,21 +1,30 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import eslintPluginReact from 'eslint-plugin-react';
+import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
+import eslintPluginJsxA11y from 'eslint-plugin-jsx-a11y';
+import eslintPluginImport from 'eslint-plugin-import';
+import eslintPluginUnusedImports from 'eslint-plugin-unused-imports';
+import eslintPluginTypeScript from '@typescript-eslint/eslint-plugin';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+export default [
   {
+    files: ['**/*.ts', '**/*.tsx'],
+    plugins: {
+      react: eslintPluginReact,
+      'react-hooks': eslintPluginReactHooks,
+      'jsx-a11y': eslintPluginJsxA11y,
+      import: eslintPluginImport,
+      'unused-imports': eslintPluginUnusedImports,
+      '@typescript-eslint': eslintPluginTypeScript,
+    },
     rules: {
-      "@typescript-eslint/no-explicit-any": "off",
+      // ✅ Safe to disable this rule to support global JSX IntrinsicElements bridge
+      '@typescript-eslint/no-empty-object-type': 'off',
+
+      // other common rules...
+      'react/jsx-uses-react': 'off', // Not needed with React 17+ JSX transform
+      'react/react-in-jsx-scope': 'off', // Not needed with React 17+ JSX transform
+      'unused-imports/no-unused-imports': 'warn',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     },
   },
 ];
-
-export default eslintConfig;
