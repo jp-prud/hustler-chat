@@ -36,8 +36,6 @@ export default function Page() {
 
       const result = await handleSearch(message as string) as any;
 
-      console.log(result);
-
       return result
     },
     { messages: [] }
@@ -251,7 +249,7 @@ type TAgentSelector = {
   setValue: (value: GatewayModelId) => void;
 };
 
-export function AgentSelector({ value, setValue }: TAgentSelector) {
+function AgentSelector({ value, setValue }: TAgentSelector) {
   const [open, setOpen] = useState(false);
 
   return (
